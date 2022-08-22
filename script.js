@@ -29,3 +29,40 @@ Sentry.addBreadcrumb({
     message: "siteId " + lpTag.site || "not yet",
     level: "info",
   });
+
+window.lpTaglogListeners.push(function (msg, level, app) {
+    console.log(app + " : " + msg + " LEVEL: " + level);
+});
+
+function getSkeletonBody(){
+    if (skeletonBodyExists()) {
+        setTimeout(function(){
+                if (skeletonBodyExists()) {
+                    let lpTagEvents = lpTag.events.hasFired('*', '*');
+                    let stringifiedEvents = [];
+                    
+                    for(let anEvent of lpTagEvents) {
+                        stringifiedEvents.push("\n appName: " + anEvent.appName + " eventName: " + anEvent.eventName + " data: " + JSON.stringify(anEvent.data) + "\n");
+                    }
+
+                    Sentry.setContext("events", {
+                        events: stringifiedEvents
+                    });
+                    throw "window hung";
+                } 
+        }, 10000);
+    }
+    else {
+        setTimeout(getSkeletonBody, 500);
+    }
+    
+    
+
+}
+
+function skeletonBodyExists() {
+ let skeletonBody =  document.getElementsByClassName("lp_skeleton-window-body");
+ return skeletonBody.length > 0;
+}
+
+lpTag.events.bind({appName: "LP_OFFERS", eventName: "OFFER_CLICK", func: getSkeletonBody})
