@@ -4,7 +4,7 @@ var Sentry=function(t){var e={};function n(){return"undefined"!=typeof window?wi
 
 Sentry.init({
     dsn: "https://f04a33f5c7b543858fc7ca4d28cd071a@o1372931.ingest.sentry.io/6678272",
-    integrations: [new BrowserTracing()],
+    integrations: [new Sentry.BrowserTracing()],
   
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
