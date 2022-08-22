@@ -17,3 +17,7 @@ Sentry.init({
       b.setAttribute("charset", "iso-8859-1");
       b.setAttribute("src", "https://lpcdn-a.lpsnmedia.net/p/lp-web-external-logging/latest/lp-web-external-logging.js?environment=prod&logLevel=3&batchProcessingSeconds=1&showLogs=true&externalLoggingId=UA-221193422-22");
       document.getElementsByTagName("head").item(0).appendChild(b);
+
+window.justenHelper = {
+    "v": "1.0.0"
+}
