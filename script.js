@@ -21,3 +21,11 @@ Sentry.init({
 window.justenHelper = {
     "v": "1.0.0"
 }
+
+document.getElementsByTagName("body")[0].style.backgroundColor = "red";
+
+Sentry.addBreadcrumb({
+    category: "siteId",
+    message: "siteId " + lpTag.site || "not yet",
+    level: "info",
+  });
