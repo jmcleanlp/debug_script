@@ -10,10 +10,6 @@ Sentry.init({
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
-    debug: true,
-    environment: "test",
-    maxBreadcrumbs: 1000,
-    attachStacktrace: true
   });
 
   var b = document.createElement("script");
