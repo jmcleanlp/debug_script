@@ -35,8 +35,11 @@ window.lpTaglogListeners.push(function (msg, level, app) {
 });
 
 function getSkeletonBody(){
+    console.log("get skeleton body");
     if (skeletonBodyExists()) {
+        console.log("found skeleton body");
         setTimeout(function(){
+            console.log("checking if window has hung");
                 if (skeletonBodyExists()) {
                     let lpTagEvents = lpTag.events.hasFired('*', '*');
                     let stringifiedEvents = [];
@@ -53,7 +56,7 @@ function getSkeletonBody(){
         }, 10000);
     }
     else {
-        setTimeout(getSkeletonBody, 500);
+        setTimeout(getSkeletonBody, 250);
     }
     
     
@@ -64,5 +67,7 @@ function skeletonBodyExists() {
  let skeletonBody =  document.getElementsByClassName("lp_skeleton-window-body");
  return skeletonBody.length > 0;
 }
+
+setTimeout(function(){getSkeletonBody();}, 250);
 
 lpTag.events.bind({appName: "LP_OFFERS", eventName: "OFFER_CLICK", func: getSkeletonBody})
