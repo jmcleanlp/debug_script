@@ -43,14 +43,18 @@ function getSkeletonBody(){
                 if (skeletonBodyExists()) {
                     let lpTagEvents = lpTag.events.hasFired('*', '*');
                     let stringifiedEvents = [];
-                    
+                    let iter = 0; 
                     for(let anEvent of lpTagEvents) {
-                        stringifiedEvents.push("\n appName: " + anEvent.appName + " eventName: " + anEvent.eventName + " data: " + JSON.stringify(anEvent.data) + "\n");
+                        iter++;
+                        stringifiedEvents.push();
+                        
+                        Sentry.setContext(anEvent.eventName + " " + iter, {
+                            appName: anEvent.appName,
+                            eventName: anEvent.eventName,
+                            data: JSON.stringify(anEvent.data, getCircularReplacer())
+                        });
                     }
 
-                    Sentry.setContext("events", {
-                        events: stringifiedEvents
-                    });
                     throw "window hung";
                 } 
         }, 10000);
@@ -71,3 +75,16 @@ function skeletonBodyExists() {
 setTimeout(function(){getSkeletonBody();}, 250);
 
 lpTag.events.bind({appName: "LP_OFFERS", eventName: "OFFER_CLICK", func: getSkeletonBody})
+
+const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
