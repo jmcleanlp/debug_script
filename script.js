@@ -48,7 +48,7 @@ function getSkeletonBody(){
                         iter++;
                         stringifiedEvents.push();
                         
-                        Sentry.setContext(anEvent.eventName + " " + iter, {
+                        Sentry.setContext(iter + " " + anEvent.eventName, {
                             appName: anEvent.appName,
                             eventName: anEvent.eventName,
                             data: JSON.stringify(anEvent.data, getCircularReplacer())
