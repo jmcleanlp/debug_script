@@ -48,7 +48,7 @@ function getSkeletonBody(){
                         iter++;
                         stringifiedEvents.push();
                         
-                        Sentry.setContext(iter + " " + anEvent.eventName, {
+                        Sentry.setContext(getFormattedNumber(iter) + " " + anEvent.eventName, {
                             appName: anEvent.appName,
                             eventName: anEvent.eventName,
                             data: JSON.stringify(anEvent.data, getCircularReplacer())
@@ -62,8 +62,15 @@ function getSkeletonBody(){
     else {
         setTimeout(getSkeletonBody, 250);
     }
-    
-    
+}
+
+function getFormattedNumber(number) {
+    number = number + "";
+    while (number.length < 4) {
+        number = "0"+number;
+    }
+
+    return number;
 
 }
 
