@@ -65,7 +65,7 @@ function getSkeletonBody(){
 
 function skeletonBodyExists() {
  let skeletonBody =  document.getElementsByClassName("lp_skeleton-window-body");
- return skeletonBody.length > 0;
+ return skeletonBody.length > 0 && skeletonBody[0].getBoundingClientRect().height > 100;
 }
 
 setTimeout(function(){getSkeletonBody();}, 250);
