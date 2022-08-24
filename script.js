@@ -8,9 +8,9 @@ for(let aScript of headScripts){
   aScript.addEventListener("load",  function() {
     let stopTime = new Date();
     let timeTook = stopTime.getTime() - window.loadStart.getTime();
-    let timeTookString = "script loaded: " + aScript.src + " took: " + timeTook + " msec";
+    let timeTookString = "script loaded: " + aScript.src + " took: " + timeTook + " msec, finished at " + getTime();
     debugScriptLoadTimes.push(timeTookString);
-    console.log("script loaded: " + aScript.src + " took: " + timeTook + " msec");
+    console.log(timeTookString);
   });
 
   aScript.addEventListener("error",  function(e) {
@@ -43,6 +43,8 @@ window.justenHelper = {
     "v": "1.0.0"
 }
 
+addLogging();
+
 document.getElementsByTagName("body")[0].style.backgroundColor = "red";
 
 Sentry.addBreadcrumb({
@@ -51,9 +53,23 @@ Sentry.addBreadcrumb({
     level: "info",
   });
 
-window.lpTaglogListeners.push(function (msg, level, app) {
-    console.log(app + " : " + msg + " LEVEL: " + level);
-});
+
+function addLogging(){
+    let blackList = ["lp_SMT", "lp_monitoringSDK", "LP_OFFER"];
+
+    window.lpTaglogListeners.push(function (msg, level, app) {
+        if (!blackList.includes(app)) {
+            console.log(getTime() + " " + app + " : " + msg + " LEVEL: " + level);
+        }
+    });
+}
+
+function getTime(){
+    var now = new Date();
+    return  now.getHours() + ":" +
+        (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + ":" +
+        (now.getSeconds() < 10 ? "0" + now.getSeconds() : now.getSeconds());
+}
 
 function getSkeletonBody(){
     console.log("get skeleton body");
