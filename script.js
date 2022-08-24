@@ -57,7 +57,7 @@ function getSkeletonBody(){
 
                     throw "window hung";
                 } 
-        }, 20000);
+        }, 45000);
     }
     else {
         setTimeout(getSkeletonBody, 250);
